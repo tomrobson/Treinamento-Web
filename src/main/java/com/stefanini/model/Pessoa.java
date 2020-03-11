@@ -30,12 +30,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  */
 @Entity
 @Table(name = "TB_PESSOA")
-@NamedQueries(value = {
-		@NamedQuery(name = "Pessoa.findByNome",
-				query = "select p from Pessoa p where p.nome=:nome"),
-		@NamedQuery(name = "Pessoa.findPerfilsAndEnderecosByNome",
-				query = "select  p from Pessoa p  JOIN FETCH p.perfils JOIN FETCH p.enderecos  where p.nome=:nome")
-})
+//@NamedQueries(value = {
+//		@NamedQuery(name = "Pessoa.findByNome",
+//				query = "select p from Pessoa p where p.nome=:nome"),
+//		@NamedQuery(name = "Pessoa.findPerfilsAndEnderecosByNome",
+//				query = "select  p from Pessoa p  JOIN FETCH p.perfis JOIN FETCH p.enderecos  where p.nome=:nome")
+//})
 public class Pessoa implements Serializable{
 
 	
@@ -76,25 +76,29 @@ public class Pessoa implements Serializable{
 	@Column(name = "ST_PESSOA")
 	private Boolean situacao;
 
-	/**
-	 * Mapeamento de Enderecos Unidirecional
-	 */
+//	/**
+//	 * Mapeamento de Enderecos Unidirecional
+//	 */
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CO_SEQ_PESSOA",referencedColumnName = "CO_SEQ_PESSOA")
 	private Set<Endereco> enderecos;
-
-	/**
-	 * Mapeamento de Perfis Unidirecional
-	 */
-	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	@JoinTable(
-			name = "TB_PESSOA_PERFIL",
-			joinColumns = {@JoinColumn(name = "CO_SEQ_PESSOA")},
-			inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL")}
-	)
-	private Set<Perfil> perfils;
+//
+//	/**
+//	 * Mapeamento de Perfis Unidirecional
+//	 */
+//	@JsonIgnore
+//	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//	@JoinTable(
+//			name = "TB_PESSOA_PERFIL",
+//			joinColumns = {@JoinColumn(name = "CO_SEQ_PESSOA")},
+//			inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL")}
+//	)
+//	private Set<Perfil> perfils;
+	
+//	@OneToMany(mappedBy= "pessoa")
+//	private Set<Endereco> enderecos;
+	
 	/**
 	 * Metodo construtor da classe
 	 */
@@ -102,13 +106,13 @@ public class Pessoa implements Serializable{
 	}
 
 
-	public Set<Perfil> getPerfils() {
-		return perfils;
-	}
-
-	public void setPerfils(Set<Perfil> perfils) {
-		this.perfils = perfils;
-	}
+//	public Set<Perfil> getPerfils() {
+//		return perfils;
+//	}
+//
+//	public void setPerfils(Set<Perfil> perfils) {
+//		this.perfils = perfils;
+//	}
 
 	/**
 	 * Construtor da Classe, Obrigando receber todos os parametros
@@ -207,13 +211,6 @@ public class Pessoa implements Serializable{
 		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email + ", dataNascimento=" + dataNascimento
 				+ ", situacao=" + situacao + "]";
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 
 }

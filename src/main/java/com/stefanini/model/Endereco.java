@@ -1,10 +1,18 @@
 package com.stefanini.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 
 @Entity
 @Table(name = "tb_endereco")
+//@NamedQueries(value = {
+//@NamedQuery(name = "Endereco.findByEndereco",
+//		query = "select p from Endereco p where p.uf=:uf"),
+//@NamedQuery(name = "Pessoa.findEnderecosAndPessoa",
+//		query = "select  p from Endereco p  JOIN FETCH p.pessoa  where p.uf=:uf")
+//})
 public class Endereco implements Serializable {
 
 
@@ -53,7 +61,19 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Long getId() {
+    public Endereco(@NotNull String cep, @NotNull String uf, @NotNull String localidade, @NotNull String bairro, 
+    		@NotNull String complemento, @NotNull String logradouro) {
+		super();
+		this.cep = cep;
+		this.uf = uf;
+		this.localidade = localidade;
+		this.bairro = bairro;
+		this.complemento = complemento;
+		this.logradouro = logradouro;
+//		this.pessoa = pessoa;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -117,7 +137,76 @@ public class Endereco implements Serializable {
         this.idPessoa = idPessoa;
     }
 
+    
+    
     @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bairro == null) ? 0 : bairro.hashCode());
+		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+		result = prime * result + ((complemento == null) ? 0 : complemento.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idPessoa == null) ? 0 : idPessoa.hashCode());
+		result = prime * result + ((localidade == null) ? 0 : localidade.hashCode());
+		result = prime * result + ((logradouro == null) ? 0 : logradouro.hashCode());
+		result = prime * result + ((uf == null) ? 0 : uf.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Endereco other = (Endereco) obj;
+		if (bairro == null) {
+			if (other.bairro != null)
+				return false;
+		} else if (!bairro.equals(other.bairro))
+			return false;
+		if (cep == null) {
+			if (other.cep != null)
+				return false;
+		} else if (!cep.equals(other.cep))
+			return false;
+		if (complemento == null) {
+			if (other.complemento != null)
+				return false;
+		} else if (!complemento.equals(other.complemento))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (idPessoa == null) {
+			if (other.idPessoa != null)
+				return false;
+		} else if (!idPessoa.equals(other.idPessoa))
+			return false;
+		if (localidade == null) {
+			if (other.localidade != null)
+				return false;
+		} else if (!localidade.equals(other.localidade))
+			return false;
+		if (logradouro == null) {
+			if (other.logradouro != null)
+				return false;
+		} else if (!logradouro.equals(other.logradouro))
+			return false;
+		if (uf == null) {
+			if (other.uf != null)
+				return false;
+		} else if (!uf.equals(other.uf))
+			return false;
+		return true;
+	}
+
+	@Override
     public String toString() {
         return "Endereco{" +
                 "id=" + id +

@@ -1,8 +1,8 @@
 package com.stefanini.servico;
 
-import com.stefanini.dao.EnderecoDao;
-import com.stefanini.model.Endereco;
-import com.stefanini.util.IGenericService;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -12,20 +12,14 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.validation.Valid;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
+import com.stefanini.dao.PerfilDao;
+import com.stefanini.model.Perfil;
+import com.stefanini.util.IGenericService;
 
-/**
- * 
- * Classe de servico, as regras de negocio devem estar nessa classe
- * @author joaopedromilhome
- *
- */
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
 @TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-public class EnderecoServico implements Serializable {
+public class PerfilServico implements Serializable{
 	
 	/**
 	 * 
@@ -33,30 +27,31 @@ public class EnderecoServico implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Inject
-	private EnderecoDao dao;
+	private PerfilDao dao;
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Endereco salvar(@Valid Endereco entity) {
+	public Perfil salvar(@Valid Perfil entity) {
 		return dao.salvar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Endereco atualizar(@Valid Endereco entity) {
+	public Perfil atualizar(@Valid Perfil entity) {
 		return dao.atualizar(entity);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public void remover(Long id) {
+	public void remover(@Valid Long id) {
 		dao.remover(id);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Optional<List<Endereco>> getList() {
+	public Optional<List<Perfil>> getList() {
 		return dao.getList();
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-	public Optional<Endereco> encontrar(Long id) {
+	public Optional<Perfil> encontrar(Long id) {
 		return dao.encontrar(id);
 	}
+
 }
