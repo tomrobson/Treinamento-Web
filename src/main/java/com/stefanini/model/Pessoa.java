@@ -108,7 +108,6 @@ public class Pessoa implements Serializable{
 	
 	@OneToMany(mappedBy = "idPessoa")
 	private List<Endereco> enderecos;
-	
 
 	/**
 	 * Metodo construtor da classe

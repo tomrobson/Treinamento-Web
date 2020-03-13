@@ -56,7 +56,6 @@ public class Perfil implements Serializable {
         this.descricao = descricao;
         this.dataHoraInclusao = dataHoraInclusao;
         this.dataHoraAlteracao = dataHoraAlteracao;
-//        this.pessoas = pessoas;
     }
 
     public Long getId() {
