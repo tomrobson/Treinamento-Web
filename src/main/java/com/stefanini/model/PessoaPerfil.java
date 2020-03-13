@@ -2,6 +2,9 @@ package com.stefanini.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_pessoa_perfil")
@@ -12,12 +15,13 @@ public class PessoaPerfil implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "co_seq_pessoal_perfil")
-    private long id;
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "co_seq_perfil", referencedColumnName = "co_seq_perfil", nullable = false)
     private Perfil perfil;
-    @ManyToOne
+    
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "co_seq_pessoa", referencedColumnName = "co_seq_pessoa", nullable = false)
     private Pessoa pessoa;
 
@@ -28,32 +32,36 @@ public class PessoaPerfil implements Serializable {
         this.perfil = perfil;
         this.pessoa = pessoa;
     }
+    
+	public Long getId() {
+		return id;
+	}
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Perfil getPerfil() {
-        return perfil;
-    }
+	public Perfil getPerfil() {
+		return perfil;
+	}
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((perfil == null) ? 0 : perfil.hashCode());
 		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		return result;
@@ -68,7 +76,10 @@ public class PessoaPerfil implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PessoaPerfil other = (PessoaPerfil) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (perfil == null) {
 			if (other.perfil != null)

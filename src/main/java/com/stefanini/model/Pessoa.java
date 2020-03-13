@@ -2,6 +2,8 @@ package com.stefanini.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -79,10 +82,10 @@ public class Pessoa implements Serializable{
 //	/**
 //	 * Mapeamento de Enderecos Unidirecional
 //	 */
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "CO_SEQ_PESSOA",referencedColumnName = "CO_SEQ_PESSOA")
-	private Set<Endereco> enderecos;
+//	@JsonIgnore
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "CO_SEQ_PESSOA",referencedColumnName = "CO_SEQ_PESSOA")
+//	private Set<Endereco> enderecos;
 //
 //	/**
 //	 * Mapeamento de Perfis Unidirecional
@@ -94,11 +97,19 @@ public class Pessoa implements Serializable{
 //			joinColumns = {@JoinColumn(name = "CO_SEQ_PESSOA")},
 //			inverseJoinColumns = {@JoinColumn(name = "CO_SEQ_PERFIL")}
 //	)
+//	@ManyToMany
+//	@JoinTable(name = "TB_PESSOA_PERFIL",
+//			joinColumns = @JoinColumn(name = "CO_SEQ_PESSOA"),
+//			inverseJoinColumns = @JoinColumn(name = "CO_SEQ_PERFIL"))
 //	private Set<Perfil> perfils;
+//	
+	@OneToMany(mappedBy = "pessoa")
+	private List<PessoaPerfil> pessoasPerfis;
 	
-//	@OneToMany(mappedBy= "pessoa")
-//	private Set<Endereco> enderecos;
+	@OneToMany(mappedBy = "idPessoa")
+	private List<Endereco> enderecos;
 	
+
 	/**
 	 * Metodo construtor da classe
 	 */
@@ -130,13 +141,13 @@ public class Pessoa implements Serializable{
 	}
 
 
-	public Set<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(Set<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
+//	public Set<Endereco> getEnderecos() {
+//		return enderecos;
+//	}
+//
+//	public void setEnderecos(Set<Endereco> enderecos) {
+//		this.enderecos = enderecos;
+//	}
 
 
 	public Long getId() {
@@ -180,14 +191,20 @@ public class Pessoa implements Serializable{
 	public void setSituacao(Boolean situacao) {
 		this.situacao = situacao;
 	}
+	
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((dataNascimento == null) ? 0 : dataNascimento.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((situacao == null) ? 0 : situacao.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -198,13 +215,34 @@ public class Pessoa implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
+		if (dataNascimento == null) {
+			if (other.dataNascimento != null)
+				return false;
+		} else if (!dataNascimento.equals(other.dataNascimento))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (situacao == null) {
+			if (other.situacao != null)
+				return false;
+		} else if (!situacao.equals(other.situacao))
+			return false;
 		return true;
 	}
+
 
 	@Override
 	public String toString() {

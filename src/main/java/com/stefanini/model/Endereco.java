@@ -1,9 +1,15 @@
 package com.stefanini.model;
 
+import javax.faces.annotation.RequestMap;
+import javax.json.bind.annotation.JsonbCreator;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_endereco")
@@ -50,8 +56,13 @@ public class Endereco implements Serializable {
      * Unidirecional
      * Somente Pessoa acessa endereco
      */
-    @Column(name = "CO_SEQ_PESSOA")
-    private Long idPessoa;
+//    @ManyToMany
+//    @Column(name = "CO_SEQ_PESSOA")
+//    private long idPessoa;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="CO_SEQ_PESSOA", referencedColumnName = "co_seq_pessoa", nullable = false)
+    private Pessoa idPessoa;
 
 //    @ManyToOne
 //    @JoinColumn(name = "co_seq_pessoa", referencedColumnName = "co_seq_pessoa", nullable = false)
@@ -60,9 +71,9 @@ public class Endereco implements Serializable {
 
     public Endereco() {
     }
-
+    
     public Endereco(@NotNull String cep, @NotNull String uf, @NotNull String localidade, @NotNull String bairro, 
-    		@NotNull String complemento, @NotNull String logradouro) {
+    		@NotNull String complemento, @NotNull String logradouro, @NotNull Pessoa idPessoa) {
 		super();
 		this.cep = cep;
 		this.uf = uf;
@@ -70,7 +81,7 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 		this.complemento = complemento;
 		this.logradouro = logradouro;
-//		this.pessoa = pessoa;
+		this.idPessoa = idPessoa;
 	}
 
 	public Long getId() {
@@ -129,17 +140,15 @@ public class Endereco implements Serializable {
         this.logradouro = logradouro;
     }
 
-    public Long getIdPessoa() {
+    public Pessoa getIdPessoa() {
         return idPessoa;
     }
 
-    public void setIdPessoa(Long idPessoa) {
+    public void setIdPessoa(Pessoa idPessoa) {
         this.idPessoa = idPessoa;
     }
 
-    
-    
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

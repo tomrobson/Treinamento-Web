@@ -3,8 +3,6 @@ package com.stefanini.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -46,8 +44,8 @@ public class Perfil implements Serializable {
 //    /**
 //     * Mapeamento de Pessoa
 //     */
-//    @ManyToMany(mappedBy = "Perfil", fetch = FetchType.LAZY)
-//    private Set<Pessoa> pessoas;
+    @OneToMany(mappedBy = "perfil")
+    private Set<PessoaPerfil> pessoasPerfis;
 
 
     public Perfil() {
@@ -60,14 +58,6 @@ public class Perfil implements Serializable {
         this.dataHoraAlteracao = dataHoraAlteracao;
 //        this.pessoas = pessoas;
     }
-
-//    public Set<Pessoa> getPessoas() {
-//        return pessoas;
-//    }
-//
-//    public void setPessoas(Set<Pessoa> pessoas) {
-//        this.pessoas = pessoas;
-//    }
 
     public Long getId() {
         return id;
