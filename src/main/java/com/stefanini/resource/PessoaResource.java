@@ -1,6 +1,7 @@
 package com.stefanini.resource;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -91,11 +92,13 @@ public class PessoaResource {
 	            
 			} catch (NoResultException e) {
 				e.printStackTrace();
-				return null;
+				String resposta = "erro ao gerar lista";
+				return Response.ok(resposta).build();
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
-			return null;
+			String resposta = "erro ao criar conexao";
+			return Response.ok(resposta).build();
 		}
 		
         
